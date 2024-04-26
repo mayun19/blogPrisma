@@ -42,6 +42,7 @@ export type FormPost = {
 };
 
 export type BlogDetail = {
+  id: any;
   params?: {
     id: string | null
   }
@@ -53,4 +54,8 @@ export type BlogDetail = {
 }
 export type BlogProps = {
   post: BlogDetail | null;
+};
+
+export type ButtonAction = {
+  postId: string;
 };

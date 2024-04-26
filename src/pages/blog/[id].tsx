@@ -2,11 +2,13 @@ import ButtonAction from "@/components/ButtonAction";
 import Layout from "@/components/Layout";
 import { db } from "@/utils/prisma";
 import { BlogProps } from "@/utils/type";
+import axios from "axios";
 import { GetServerSideProps } from "next";
+import router from "next/router";
 import { FC } from "react";
 
-export const getServerSideProps: GetServerSideProps<BlogProps> = async ({params}) => {
-   const id = params?.id as string;
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const id = params?.id as string;
   const post = await db.post.findFirst({
     where: {
       id: id,
@@ -25,13 +27,16 @@ export const getServerSideProps: GetServerSideProps<BlogProps> = async ({params}
     },
   };
 };
+
+
 const BlogDetailPage: FC<BlogProps> = ({ post }) => {
+
   return (
     <Layout pageTitle="Blog Detail">
       <div className="container">
         <div className="mb-8">
           <h1 className="text-2xl font-bold my-4">{post?.title}</h1>
-          <ButtonAction />
+          <ButtonAction postId={post?.id} />
         </div>
         <div className="badge badge-neutral">{post?.tag.name}</div>
         <p className="text-slate-700">{post?.content}</p>

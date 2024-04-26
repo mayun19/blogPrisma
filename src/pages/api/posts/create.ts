@@ -8,11 +8,10 @@ export default async function handler(
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
-
   const postData = JSON.parse(req.body);
   const savedData = await db.post.create({
     data: postData,
-  });  
+  });
 
   res.json(savedData);
 }
