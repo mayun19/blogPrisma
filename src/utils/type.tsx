@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import type { Post } from "@prisma/client";
 import { SubmitHandler } from "react-hook-form";
+import { Tag } from "@prisma/client";
 
 export type ChildProps = {
   pageTitle?: String;
@@ -16,15 +16,41 @@ export type ResponseData = {
 
 export type PostData = {
   post: Post;
-}
+};
+
+export type Post = {
+  id: string;
+  title: string;
+  content: string;
+  tag?: Tag;
+};
+
+export type PostProps = {
+  posts?: Post[];
+};
 
 export type FormInputPost = {
   title: string;
   content: string;
-  tag: string
+  tag?: Tag | null;
 };
 
 export type FormPost = {
-  submit: SubmitHandler<FormInputPost>
-  isEditing?: boolean
+  submit: SubmitHandler<FormInputPost>;
+  isEditing?: boolean;
+  tags?: string;
+};
+
+export type BlogDetail = {
+  params?: {
+    id: string | null
+  }
+  title: string
+  content: string
+  tag: {
+    name: string
+  }
 }
+export type BlogProps = {
+  post: BlogDetail | null;
+};

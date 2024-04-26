@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "./Header";
 import Head from "next/head";
 import { ChildProps } from "@/utils/type";
 import Navbar from "./Navbar";

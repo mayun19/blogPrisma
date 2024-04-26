@@ -1,23 +1,10 @@
-import { GetServerSideProps } from "next";
 import Layout from "@/components/Layout";
-import { db } from "@/utils/prisma";
 import PostCard from "@/components/PostCard";
+import { db } from "@/utils/prisma";
+import { PostProps } from "@/utils/type";
+import { GetServerSideProps } from "next";
 
-type Post = {
-  id: string;
-  title: string;
-  content: string;
-  createdAt: Date;
-  updateAt: Date;
-  tagId: string;
-}
-
-type Props = {
-  posts: Post[];
-};
-
-
-const Home = ({ posts }: Props) => {
+export default function Home({ posts }: PostProps) {
   return (
     <Layout>
       <main className="flex flex-col items-center justify-between lg:py-12 py-5 pt-5">
@@ -25,28 +12,31 @@ const Home = ({ posts }: Props) => {
         <h2>Browse Article</h2>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-4 mt-10">
-          {posts.map((post) => (
+          {posts?.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
         </div>
       </main>
     </Layout>
   );
-};
+}
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const allPosts = await db.post.findMany();
-  const posts: any[] = allPosts.map((post) => ({
-    ...post,
-    createdAt: post.createdAt.toISOString(),
-    updateAt: post.updateAt.toISOString(),
-  }));
+export const getServerSideProps: GetServerSideProps<PostProps> = async () => {
+  const posts = await db.post.findMany({
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      tag: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
   return {
     props: {
-      posts: posts,
+      posts,
     },
   };
 };
-
-export default Home;
