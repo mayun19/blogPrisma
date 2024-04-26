@@ -12,6 +12,7 @@ export type ResponseData = {
   posts?: Post[];
   post?: Post[];
   message?: string;
+  updatePost?: any;
 };
 
 export type PostData = {
@@ -39,6 +40,7 @@ export type FormPost = {
   submit: SubmitHandler<FormInputPost>;
   isEditing?: boolean;
   tags?: string;
+  initialValue?: FormInputPost;
 };
 
 export type BlogDetail = {
@@ -49,6 +51,7 @@ export type BlogDetail = {
   title: string
   content: string
   tag: {
+    id: string;
     name: string
   }
 }

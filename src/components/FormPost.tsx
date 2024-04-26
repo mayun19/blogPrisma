@@ -9,43 +9,46 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
-const FormPost: FC<FormPost> = ({ submit, isEditing }) => {
-  const { register, handleSubmit } = useForm<FormInputPost>();
+const FormPost: FC<FormPost> = ({ submit, isEditing, initialValue }) => {
+  const { register, handleSubmit } = useForm<FormInputPost>({
+    defaultValues: initialValue,
+  });
+  
   const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
 
   //fetch list tags
-  const { data:tags, isLoading: isLoadingTags } = useQuery<Tag[]>({
+  const { data: tags, isLoading: isLoadingTags } = useQuery<Tag[]>({
     queryKey: ["tags"],
     queryFn: async () => {
       const response = await axios.get("/api/tags");
       return response.data.tags;
     },
   });
-    const handleTagChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const tagId = e.target.value;
-      const selectedTag = tags?.find((tag) => tag.id === tagId);
-      setSelectedTag(selectedTag || null);
-    };
+  const handleTagChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const tagId = e.target.value;
+    const selectedTag = tags?.find((tag) => tag.id === tagId);
+    setSelectedTag(selectedTag || null);
+  };
 
-    const onSubmit = (formData: FormInputPost) => {
-      // Add the selected tag ID to the form data
-      const dataWithSelectedTag: FormInputPost = {
-        ...formData,
-        tag: selectedTag,
-      };
-      submit(dataWithSelectedTag);
-      toast.success("Post created successfully!", {
-        position: "top-right",
-        autoClose: 18000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
+  const onSubmit = (formData: FormInputPost) => {
+    // Add the selected tag ID to the form data
+    const dataWithSelectedTag: FormInputPost = {
+      ...formData,
+      tag: selectedTag,
     };
+    submit(dataWithSelectedTag);
+    toast.success("Post created successfully!", {
+      position: "top-right",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
 
   return (
     <form
@@ -66,7 +69,7 @@ const FormPost: FC<FormPost> = ({ submit, isEditing }) => {
       ) : (
         <select
           className="select select-bordered w-full max-w-lg"
-          {...register("tag", { required: true })}
+          {...register("tag.id", { required: true })}
           onChange={handleTagChange}
           defaultValue="">
           <option disabled value="">

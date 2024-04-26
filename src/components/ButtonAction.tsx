@@ -26,7 +26,7 @@ const ButtonAction: FC<ButtonAction> = ({ postId }) => {
   }
   return (
     <div className="flex gap-3">
-      <Link href={"/edit/title"} className="btn btn-danger">
+      <Link href={`/blog/edit/${postId}`} className="btn btn-danger">
         <PencilLine /> Edit
       </Link>
       <button onClick={DeletePost} className="btn btn-error">

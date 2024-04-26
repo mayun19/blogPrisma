@@ -1,9 +1,5 @@
-import { db } from "@/utils/prisma";
-import React, { useEffect, useState } from "react";
-import PostCard from "./PostCard";
+import React from "react";
 import type { Post } from "@prisma/client";
-import { GetServerSideProps } from "next";
-import { ResponseData } from "@/utils/type";
 
 const Posts = ({postList}: {postList: Post[]}) => {
   return (

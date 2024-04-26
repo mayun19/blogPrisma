@@ -2,9 +2,7 @@ import ButtonAction from "@/components/ButtonAction";
 import Layout from "@/components/Layout";
 import { db } from "@/utils/prisma";
 import { BlogProps } from "@/utils/type";
-import axios from "axios";
 import { GetServerSideProps } from "next";
-import router from "next/router";
 import { FC } from "react";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {

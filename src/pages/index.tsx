@@ -21,7 +21,7 @@ export default function Home({ posts }: PostProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<PostProps> = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const posts = await db.post.findMany({
     select: {
       id: true,
